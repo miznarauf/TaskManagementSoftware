@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_task_management_software/constants/app_style.dart';
+import 'package:flutter_task_management_software/model/tasktodo_model.dart';
 import 'package:flutter_task_management_software/provider/radio_provider.dart';
 import 'package:flutter_task_management_software/provider/date_time_provider.dart';
+import 'package:flutter_task_management_software/provider/service_provider.dart';
 import 'package:flutter_task_management_software/widget/TextField_widget.dart';
 import 'package:flutter_task_management_software/widget/date_time_widget.dart';
 import 'package:flutter_task_management_software/widget/radio_widget.dart';
@@ -11,7 +13,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class AddNewTaskModal extends ConsumerWidget {
-  const AddNewTaskModal({Key? key}) : super(key: key);
+  AddNewTaskModal({Key? key}) : super(key: key);
+
+  // Initializing variables
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,11 +52,19 @@ class AddNewTaskModal extends ConsumerWidget {
                 style: AppStyle.headingOne,
               ),
               const Gap(6),
-              TextFieldWidget(maxLines: 1, hintText: "Add Task Name"),
+              TextFieldWidget(
+                maxLines: 1,
+                hintText: "Add Task Name",
+                txtController: titleController,
+              ),
               Gap(12),
               Text('Description', style: AppStyle.headingOne),
               Gap(6),
-              TextFieldWidget(maxLines: 5, hintText: "Add Descriptions"),
+              TextFieldWidget(
+                maxLines: 5,
+                hintText: "Add Descriptions",
+                txtController: descriptionController,
+              ),
               Gap(12),
               Text(
                 "Cateogry",
@@ -160,7 +174,31 @@ class AddNewTaskModal extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           padding: EdgeInsets.symmetric(vertical: 14)),
-                      onPressed: () {},
+                      onPressed: () {
+                        final getradioValue = ref.read(radioProvider);
+                        String category = '';
+
+                        switch (getradioValue) {
+                          case 1:
+                            category = "Education";
+                            break;
+                          case 2:
+                            category = "Work";
+                            break;
+                          case 3:
+                            category = "Personal";
+                            break;
+                        }
+
+                        ref.read(serviceProvider).addNewTask(TaskTodoModel(
+                            titleTask: titleController.text,
+                            description: descriptionController.text,
+                            category: category,
+                            dateTask: ref.read(DateProvider),
+                            timeTask: ref.read(TimeProvider)));
+
+                        print("Data is saving...");
+                      },
                       child: Text('Create'),
                     ),
                   ),

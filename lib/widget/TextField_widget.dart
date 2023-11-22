@@ -4,11 +4,13 @@ class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     super.key,
     required this.maxLines,
-    required this.hintText
+    required this.hintText,
+    required this.txtController,
   });
 
   final String hintText;
   final int maxLines;
+  final TextEditingController txtController;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class TextFieldWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
+        controller: txtController,
         maxLines: maxLines,
         decoration: InputDecoration(
           enabledBorder: InputBorder.none,
