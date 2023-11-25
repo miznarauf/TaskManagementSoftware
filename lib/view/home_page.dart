@@ -1,15 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_task_management_software/comman/show_modal.dart';
+import 'package:flutter_task_management_software/provider/service_provider.dart';
 import 'package:flutter_task_management_software/widget/card_todo_widget.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+
+class HomePage extends ConsumerWidget {
   HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tasktodoData = ref.watch(fetchDataProvider);
+
+
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
@@ -55,9 +61,9 @@ class HomePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Today\'s Task',
                         style: TextStyle(
@@ -91,9 +97,10 @@ class HomePage extends StatelessWidget {
               ),
               Gap(20),
               ListView.builder(
-                  itemCount: 4,
+                  itemCount: tasktodoData.value!.length,
                   shrinkWrap: true,
-                  itemBuilder: (context, index) => CardTodoListWidget())
+                  itemBuilder: (context, index) =>
+                      CardTodoListWidget(getIndex: index))
             ],
           ),
         ),

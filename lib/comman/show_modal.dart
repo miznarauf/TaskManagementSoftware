@@ -75,8 +75,8 @@ class AddNewTaskModal extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: RadioWidget(
-                      categColor: Colors.green,
-                      titleRadio: "LRN",
+                      categColor: Colors.red,
+                      titleRadio: "EDU",
                       valueInput: 1,
                       onChangeValue: () =>
                           ref.read(radioProvider.notifier).update((state) => 1),
@@ -84,7 +84,7 @@ class AddNewTaskModal extends ConsumerWidget {
                   ),
                   Expanded(
                     child: RadioWidget(
-                      categColor: Colors.blue.shade700,
+                      categColor: Colors.yellow.shade600,
                       titleRadio: "WRK",
                       valueInput: 2,
                       onChangeValue: () =>
@@ -93,8 +93,8 @@ class AddNewTaskModal extends ConsumerWidget {
                   ),
                   Expanded(
                     child: RadioWidget(
-                      categColor: Colors.amberAccent.shade700,
-                      titleRadio: "GEN",
+                      categColor: Colors.blue.shade800,
+                      titleRadio: "PER",
                       valueInput: 3,
                       onChangeValue: () =>
                           ref.read(radioProvider.notifier).update((state) => 3),
@@ -195,9 +195,15 @@ class AddNewTaskModal extends ConsumerWidget {
                             description: descriptionController.text,
                             category: category,
                             dateTask: ref.read(DateProvider),
-                            timeTask: ref.read(TimeProvider)));
+                            timeTask: ref.read(TimeProvider),
+                            isCompleted: false));
 
                         print("Data is saving...");
+
+                        titleController.clear();
+                        descriptionController.clear();
+                        ref.read(radioProvider.notifier).update((state) => 0);
+                        Navigator.pop(context);
                       },
                       child: Text('Create'),
                     ),

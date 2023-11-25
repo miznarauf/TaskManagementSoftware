@@ -8,4 +8,14 @@ class TaskTodoService{
     tasktodoCollection.add(model.toMap());
   }
 
+
+  void updateTask(String? docId, bool? valueUpdated){
+    tasktodoCollection.doc(docId).update({
+      'isCompleted': valueUpdated,
+    });
+  }
+
+  void deleteTask(String? docId){
+    tasktodoCollection.doc(docId).delete();
+  }
 }
